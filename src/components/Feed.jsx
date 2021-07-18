@@ -255,7 +255,6 @@ export default function Feed() {
                             currentUser={currentUser}
                             puid={videoObj.puid}
                         >
-                            
                         </Video>
                     </div>)
                 })}
