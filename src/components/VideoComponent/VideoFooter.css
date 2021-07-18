@@ -1,0 +1,11 @@
+.videoFooter{
+    position: relative;
+    color: white;
+    bottom: 120px;
+    left: 0px;
+    display: flex;
+    font-size: small;
+    padding: 0;
+    /* bottom: 193px; */
+    /* width: 5%; */
+}

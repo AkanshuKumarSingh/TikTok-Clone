@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Material from './Material';
+import GridContainer from './materialComponents/Grid';
+import IntersectionDemo from './intersectionobserver/IntersectionDemo';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App></App>
+  // <IntersectionDemo></IntersectionDemo>
+  // <Material></Material>
+  // <GridContainer></GridContainer>
+  // <div>hi</div>
+  ,
   document.getElementById('root')
 );
 

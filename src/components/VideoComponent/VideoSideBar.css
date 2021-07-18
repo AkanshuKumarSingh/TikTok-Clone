@@ -1,0 +1,8 @@
+.videoSidebar {
+    position: relative;
+    color: white;
+    bottom: 130px;
+    display: flex;
+    padding: 0;
+    justify-content: flex-end;
+}

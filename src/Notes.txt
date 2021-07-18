@@ -1,0 +1,49 @@
+Feateures : 
+    video add :
+    Text add: 
+    Like:
+    Comment : 
+    Profile Page:
+
+    Video : 
+        auto - stop and auto start
+        auto scroll
+        smooth scroll
+
+    Authentication : 
+        login
+        signup
+        logout
+
+Tech used : 
+    React context api
+    Routing
+    Material ui
+    Firebase - 
+        Authentication
+        storage
+        firestore
+
+    Intersection observer api : video features
+
+
+Description : 
+we have 4 pages : 
+    login
+    signup
+    feed - (Reels)
+    Profile
+
+
+Case 1 : used is not signed in and going to feed :  send him to login page.
+Case 2 : when user sign in send to feed
+Case 3 : used sign in directly send to feed
+
+firestore(Databse) : user 
+                name
+                email
+                Profile pic url
+                created Acc date
+                unique id
+storage(Files) : 
+            user : uniqueId : data;
