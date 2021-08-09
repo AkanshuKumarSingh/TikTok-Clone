@@ -117,11 +117,11 @@ function Signup(props) {
 
                     <Grid item sm={4}>
                         <Card variant="outlined">
-                        <img 
-                        src="https://media-assets-04.thedrum.com/cache/images/thedrum-prod/s3-news-tmp-116020-tiktok--default--1280.png"
-                        alt='tiktok'
-                        width="500" height="150"
-                    />
+                            <img
+                                src="https://media-assets-04.thedrum.com/cache/images/thedrum-prod/s3-news-tmp-116020-tiktok--default--1280.png"
+                                alt='tiktok'
+                                width="500" height="150"
+                            />
                             {/* className={classes.centerElements} */}
                             <CardContent className={classes.centerElements}>
                                 <TextField
@@ -197,3 +197,6 @@ function LinkButton(prop) {
         </Button>
     )
 }
+
+// allow read, write: if
+//           request.time < timestamp.date(2021, 7, 23);

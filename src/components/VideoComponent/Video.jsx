@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Comment from './Comment';
 import './Video.css';
 import VideoFooter from './VideoFooter';
 import VideoSideBar from './VideoSideBar';
@@ -6,6 +7,7 @@ import VideoSideBar from './VideoSideBar';
 function Video(props) {
     const videoRef = useRef(null);
     const [play, setPlay] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const onVideoPress = () => {
         if (play) {
@@ -40,23 +42,24 @@ function Video(props) {
 
 
     return (
-        <div className='video'>
-            <video
-                className="video__player"
-                loop
-                ref={videoRef}
-                onClick={onVideoPress}
-                id={props.id}>
-                <source src={
-                    props.src
-                }
-                    type="video/mp4"
-                ></source>
-            </video>
-            <VideoSideBar currentUser={props.currentUser} puid={props.puid}></VideoSideBar>
-            <VideoFooter userName={props.userName}></VideoFooter>
-            {props.userName}
-        </div>
+         isOpen == true  ? <Comment></Comment> :
+            <div className='video'>
+                <video
+                    className="video__player"
+                    loop
+                    ref={videoRef}
+                    onClick={onVideoPress}
+                    id={props.id}>
+                    <source src={
+                        props.src
+                    }
+                        type="video/mp4"
+                    ></source>
+                </video>
+                <VideoSideBar currentUser={props.currentUser} puid={props.puid} setIsOpen={setIsOpen}></VideoSideBar>
+                <VideoFooter userName={props.userName}></VideoFooter>
+                {props.userName}
+            </div>
     )
 }
 

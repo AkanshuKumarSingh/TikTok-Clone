@@ -12,11 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.feed{
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    align-items: center;
-    background-color: black;
-}

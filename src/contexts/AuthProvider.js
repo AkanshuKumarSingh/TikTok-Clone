@@ -6,6 +6,7 @@ export const AuthContext = React.createContext();
 export default function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
+    
     function login(email, password) {
         // firebase
         return auth.signInWithEmailAndPassword(email, password);

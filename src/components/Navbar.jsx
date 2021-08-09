@@ -1,7 +1,7 @@
 import { AuthContext } from '../contexts/AuthProvider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import {IconButton,Button} from '@material-ui/core';
+import { IconButton, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,7 +20,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import Profile from './Profile';
 
-function Navbar({user,history,myVideos}) {
+function Navbar({ user, history, myVideos }) {
 
     const [loading, setLoading] = useState(false);
     const { signout } = useContext(AuthContext)
@@ -125,11 +125,11 @@ function Navbar({user,history,myVideos}) {
     const handleMenuClose = (e) => {
         if (e.target.getAttribute("signout")) {
             handleLogout();
-        }else if(e.target.getAttribute("profile")){
+        } else if (e.target.getAttribute("profile")) {
             history.push({
                 pathname: '/profile',
-                state: { data: user, videos : myVideos },
-              });
+                state: { data: user, videos: myVideos },
+            });
         }
         setAnchorEl(null);
         handleMobileMenuClose();
@@ -215,10 +215,11 @@ function Navbar({user,history,myVideos}) {
             }}>
                 <AppBar position="static" className={classes.backDesign}>
                     <Toolbar>
-
-                        <Typography className={classes.title} variant="h6" noWrap>
-                            Instagram
-                        </Typography>
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjAyfg3Sboqv-a5UPaRLBoyP99n9l1GlnSEw&usqp=CAU"
+                            alt='tiktok'
+                            width="100" height="50"
+                        />
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             <IconButton aria-label="show 4 new mails" color="inherit">

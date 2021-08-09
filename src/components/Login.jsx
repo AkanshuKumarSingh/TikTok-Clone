@@ -92,7 +92,10 @@ function Login(props) {
                                     display="block"
                                     className={classes.mb}
                                     size="small"
-                                    onChange={(e) => { setEmail(e.target.value) }} />
+                                    onChange={(e) => { 
+                                        setEmail(e.target.value) 
+                                    }
+                                    } />
                                 <TextField
                                     id="outlined-password-input"
                                     label="Password"

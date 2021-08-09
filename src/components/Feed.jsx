@@ -7,6 +7,10 @@ import { AuthContext } from '../contexts/AuthProvider';
 import { storage, firestore, database } from '../firebase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Video from './VideoComponent/Video';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import MovieIcon from '@material-ui/icons/Movie';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import Comment from './VideoComponent/Comment';
 
 // import uuid from 'react-uuid';
 
@@ -34,43 +38,6 @@ export default function Feed() {
                 display: 'block',
             },
         },
-        search: {
-            position: 'relative',
-            borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
-            '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
-            },
-            marginRight: theme.spacing(2),
-            marginLeft: 0,
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                marginLeft: theme.spacing(3),
-                width: 'auto',
-            },
-        },
-        searchIcon: {
-            padding: theme.spacing(0, 2),
-            height: '100%',
-            position: 'absolute',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-        inputRoot: {
-            color: 'inherit',
-        },
-        inputInput: {
-            padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('md')]: {
-                width: '20ch',
-            },
-        },
         sectionDesktop: {
             display: 'none',
             [theme.breakpoints.up('md')]: {
@@ -95,28 +62,32 @@ export default function Feed() {
         input: {
             display: 'none',
         },
+        loadingBar: {
+            marginLeft: '50%',
+            marginTop: '50vh'
+        },
         icon: {
             // backgroundColor: "red"
             position: "absolute",
             bottom: "4vh",
-            fontSize: "2rem"
+            fontSize: "2rem",
+            marginBottom: '1rem'
         },
         heart: {
-            position: "absolute",
-            bottom: "4vh",
-            left: "4vh",
-            fontSize: "2rem"
+            fontSize: "2rem",
+            // padding:"4rem"
+            marginBottm: '2rem',
         },
-        chat: {
-            left: "32vw"
-        },
+        // chat: {
+        //     left: "32vw"
+        // },
         notSelected: {
             color: "lightgray"
         }
         ,
         selected: {
             color: "red"
-        }
+        },
     }));
 
     const classes = useStyles();
@@ -133,10 +104,12 @@ export default function Feed() {
         // how get a document from a collection in firebase 
         // auth user doen't contains any other data besides email ,password , uid
         //  you need to get the complete document from  the firstore using either of email or uid 
-
+        // console.log(111);
         let dataObject = await database.users.doc(currentUser.uid).get();
+        // console.log(222);
         console.log(dataObject.data());
         setUser(dataObject.data());
+        // console.log(user);
         setpageLoading(false);
 
     }, []);
@@ -192,23 +165,28 @@ export default function Feed() {
         uploadTask.on('state_changed', f1, f2, f3)
     }
 
+    const handleCommentClicked = async (puid) => {
+
+        // let copyofVideos = [...videos];
+        // let idx = copyofVideos.findIndex((video) => {
+        //     return video.puid == puid;
+        // });
+        // let videoObj = copyofVideos[idx];
+        // videoObj.isOverlayActive = true;
+        // setVideos(copyofVideos);
+
+    }
+
     useEffect(async () => {
         let unsub = await database.posts.orderBy("createdAt", "desc")
             .onSnapshot(async snapshot => {
                 // console.log(snapshot);
                 let videos = snapshot.docs.map(doc => doc.data());
                 console.log(videos);
-                // let videoUrls = videos.map(video =>);
-                // let auidArr = videos.map(video => video.auid);
-                // let usersArr = [];
-                // for (let i = 0; i < auidArr.length; i++) {
-                //     let userObject = await database.user.doc(auidArr[i]).get();
-                //     usersArr.push(userObject)
-                // }
-
                 let videosArr = [];
                 for (let i = 0; i < videos.length; i++) {
                     let videoUrl = videos[i].url;
+                    let videoComments = videos[i].comments;
                     let auid = videos[i].auid;
                     let id = snapshot.docs[i].id;
                     let userObject = await database.users.doc(auid).get();
@@ -219,48 +197,67 @@ export default function Feed() {
                         userProfileUrl,
                         userName,
                         puid: id,
-                        isOverlayActive: false
+                        // isOverlayActive: false
+                        videoComments
                     });
                 }
-
                 setVideos(videosArr);
             })
     }, [])
 
-    return (
-        pageLoading == true ? <div>Loading...</div> : <div>
-            {/* Feed
-            <button onClick={handleLogout} disabled={loading}>Logout</button> */}
-            <Navbar user={user}></Navbar>
-            <div className="uploadImage">
-                <div className={classes.root}>
-                    <input accept="file" className={classes.input} id="icon-button-file" type="file"
-                        onChange={handleInputFile}
-                    />
-                    <label htmlFor="icon-button-file">
-                        <Button variant="contained" color="primary" component="span" disabled={loading} endIcon={<PhotoCamera />}>
-                            Upload
-                        </Button>
-                    </label>
-                </div>
-            </div>
-            <div className="feed">
-                {videos.map((videoObj, idx) => {
-                    {/* console.log(videoObj); */ }
-                    return (<div className="video-container">
-                        <Video
-                            src={videoObj.videoUrl}
-                            id={idx}
-                            userName={videoObj.userName}
-                            currentUser={currentUser}
-                            puid={videoObj.puid}
-                        >
-                        </Video>
-                    </div>)
-                })}
-            </div>
+    const makeOverlayActive = (video) => {
+        let newvideos = videos.map((videoObj) => {
+            if (videoObj.videoUrl == video.videoUrl) {
+                let t = video;
+                t.isOverlayActive = true;
+                return t;
+            } else {
+                return videoObj;
+            }
+        });
+        console.log(123);
+        setVideos(newvideos);
+    }
 
-        </div>
+    return (
+        pageLoading == true ? <CircularProgress className={classes.loadingBar} />
+            : <div>
+                {/* Feed
+            <button onClick={handleLogout} disabled={loading}>Logout</button> */}
+                <Navbar user={user}></Navbar>
+                <div className="uploadImage">
+                    <div className={classes.root}>
+                        <input accept="file" className={classes.input} id="icon-button-file" type="file"
+                            onChange={handleInputFile}
+                        />
+                        <label htmlFor="icon-button-file">
+                            <Button variant="contained" color="primary" component="span" disabled={loading} endIcon={<MovieIcon />}>
+                                Upload
+                            </Button>
+                        </label>
+                    </div>
+                </div>
+                <div className="feed">
+                    {videos.map((videoObj, idx) => {
+                        {/* console.log(videoObj); */ }
+                        return (<div className="video-container">
+                            <Video
+                                src={videoObj.videoUrl}
+                                id={idx}
+                                userName={videoObj.userName}
+                                currentUser={currentUser}
+                                puid={videoObj.puid}
+                            >
+                            </Video>
+                            <Comment puid={videoObj.puid} photoUrl={user.profileUrl} comments={videoObj.videoComments}></Comment>
+                            {/* <ChatBubbleIcon className={[classes.icon, classes.chat, classes.notSelected]}
+                                    onClick={() => { handleCommentClicked(videoObj.puid) }}>
+                                </ChatBubbleIcon> */}
+                        </div>)
+                    })}
+                </div>
+
+            </div>
     )
 }
 
